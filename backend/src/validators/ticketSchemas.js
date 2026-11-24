@@ -53,3 +53,24 @@ export const ticketListQuerySchema = z
     limit: z.coerce.number().int().min(1).max(100).default(10),
   })
   .strict();
+
+export const ticketUpdateSchema = z
+  .object({
+    category: z
+      .enum(["BILLING", "BUG", "FEATURE_REQUEST", "LOGIN", "DELIVERY"])
+      .optional(),
+    priority: z.enum(["LOW", "MEDIUM", "HIGH", "URGENT"]).optional(),
+    status: z
+      .enum(["OPEN", "IN_PROGRESS", "RESOLVED", "CLOSED"])
+      .optional(),
+    assigneeId: z
+      .union([
+        z.string().regex(/^[0-9a-fA-F]{24}$/, "assigneeId must be a valid ID"),
+        z.null(),
+      ])
+      .optional(),
+  })
+  .strict()
+  .refine((body) => Object.keys(body).length > 0, {
+    message: "At least one ticket field is required",
+  });

@@ -5,6 +5,7 @@ import {
   getTicketWithEvents,
   listTickets,
 } from "../services/ticketQueryService.js";
+import { reviewTicket } from "../services/ticketReviewService.js";
 
 export const importTicketFeed = async (req, res, next) => {
   try {
@@ -47,6 +48,33 @@ export const getTicketById = async (req, res, next) => {
         },
       });
     }
+
+    return res.status(200).json(result);
+  } catch (error) {
+    return next(error);
+  }
+};
+
+export const updateTicket = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    if (!mongoose.isValidObjectId(id)) {
+      return res.status(404).json({
+        error: {
+          code: "NOT_FOUND",
+          message: "Ticket not found",
+        },
+      });
+    }
+
+    const headerActor = req.get("X-Agent")?.trim();
+    const actor = headerActor || req.user.email;
+    const result = await reviewTicket({
+      ticketId: id,
+      updates: req.body,
+      actor,
+    });
 
     return res.status(200).json(result);
   } catch (error) {

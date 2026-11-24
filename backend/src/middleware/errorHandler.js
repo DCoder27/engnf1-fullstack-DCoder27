@@ -3,7 +3,14 @@ export const errorHandler = (error, req, res, next) => {
     return next(error);
   }
 
-  console.error(error);
+  if (error?.status && error?.code) {
+    return res.status(error.status).json({
+      error: {
+        code: error.code,
+        message: error.message,
+      },
+    });
+  }
 
   if (error?.name === "ValidationError") {
     const firstMessage = Object.values(error.errors)[0]?.message;
@@ -15,6 +22,8 @@ export const errorHandler = (error, req, res, next) => {
       },
     });
   }
+
+  console.error(error);
 
   return res.status(500).json({
     error: {
