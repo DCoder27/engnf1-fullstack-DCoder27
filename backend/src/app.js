@@ -3,6 +3,7 @@ import cors from "cors";
 import express from "express";
 
 import { errorHandler } from "./middleware/errorHandler.js";
+import adminRoutes from "./routes/adminRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 import bookingRoutes from "./routes/bookingRoutes.js";
 import resourceRoutes from "./routes/resourceRoutes.js";
@@ -26,6 +27,7 @@ app.get("/api/health", (req, res) => {
 });
 
 app.use("/api/auth", authRoutes);
+app.use("/api/admin", adminRoutes);
 app.use("/api/bookings", bookingRoutes);
 app.use("/api/resources", resourceRoutes);
 app.use("/api/tickets", ticketRoutes);
