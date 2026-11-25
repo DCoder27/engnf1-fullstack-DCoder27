@@ -2,6 +2,7 @@ import { Router } from "express";
 
 import {
   addBooking,
+  approvePendingBooking,
   cancelMyBooking,
   getAllBookings,
   getBookingById,
@@ -31,6 +32,13 @@ router.get(
   requireAdmin,
   validateQuery(adminBookingsQuerySchema),
   getAllBookings,
+);
+router.patch(
+  "/:id/approve",
+  authenticate,
+  requireAdmin,
+  validateObjectId("Booking"),
+  approvePendingBooking,
 );
 router.patch(
   "/:id/cancel",

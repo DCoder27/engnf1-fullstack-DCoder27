@@ -1,3 +1,4 @@
+import { approveBooking } from "../services/bookingApprovalService.js";
 import { createBooking } from "../services/bookingCreationService.js";
 import { cancelBooking } from "../services/bookingCancellationService.js";
 import {
@@ -61,6 +62,15 @@ export const cancelMyBooking = async (req, res, next) => {
       userId: req.user.id,
     });
 
+    return res.status(200).json(booking);
+  } catch (error) {
+    return next(error);
+  }
+};
+
+export const approvePendingBooking = async (req, res, next) => {
+  try {
+    const booking = await approveBooking(req.params.id);
     return res.status(200).json(booking);
   } catch (error) {
     return next(error);
