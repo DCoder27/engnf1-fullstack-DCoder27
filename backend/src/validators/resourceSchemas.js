@@ -54,3 +54,39 @@ export const updateResourceSchema = z
   .refine((body) => Object.keys(body).length > 0, {
     message: "At least one resource field is required",
   });
+
+const utcDateTimeSchema = z
+  .string()
+  .datetime({ offset: false, message: "Timestamp must be ISO 8601 UTC" })
+  .transform((value) => new Date(value));
+
+export const availabilityQuerySchema = z
+  .object({
+    from: utcDateTimeSchema,
+    to: utcDateTimeSchema,
+  })
+  .strict()
+  .superRefine(({ from, to }, context) => {
+    if (!(from instanceof Date) || !(to instanceof Date)) {
+      return;
+    }
+
+    if (to <= from) {
+      context.addIssue({
+        code: "custom",
+        path: ["to"],
+        message: "to must be later than from",
+      });
+      return;
+    }
+
+    const sevenDaysInMilliseconds = 7 * 24 * 60 * 60 * 1000;
+
+    if (to.getTime() - from.getTime() > sevenDaysInMilliseconds) {
+      context.addIssue({
+        code: "custom",
+        path: ["to"],
+        message: "Availability range must not exceed 7 days",
+      });
+    }
+  });
