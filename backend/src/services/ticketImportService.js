@@ -20,6 +20,7 @@ const updateExistingTicket = async (ticket, incoming, counters) => {
 
   const classification = classifyTicket(incoming.subject, incoming.body);
   const classificationChanged =
+    ticket.autoCategory !== classification.autoCategory ||
     ticket.category !== classification.category ||
     ticket.priority !== classification.priority;
 
@@ -29,6 +30,7 @@ const updateExistingTicket = async (ticket, incoming, counters) => {
 
   ticket.subject = incoming.subject;
   ticket.body = incoming.body;
+  ticket.autoCategory = classification.autoCategory;
   ticket.category = classification.category;
   ticket.priority = classification.priority;
 

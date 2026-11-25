@@ -31,7 +31,6 @@ const ticketSchema = new mongoose.Schema(
       type: String,
       enum: categories,
       required: true,
-      immutable: true,
     },
     category: {
       type: String,
