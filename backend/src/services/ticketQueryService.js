@@ -1,9 +1,6 @@
 import Ticket from "../models/Ticket.js";
 import TicketEvent from "../models/TicketEvent.js";
-
-export const escapeRegex = (value) => {
-  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-};
+import { escapeRegex } from "../utils/search.js";
 
 export const listTickets = async ({
   status,

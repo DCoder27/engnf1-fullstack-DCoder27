@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { escapeRegex } from "./ticketQueryService.js";
+import { escapeRegex } from "../utils/search.js";
 
 test("escapes regular-expression metacharacters in ticket searches", () => {
   const input = ".*+?^${}()|[]\\<script>_%'";
