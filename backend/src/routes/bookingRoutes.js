@@ -7,6 +7,7 @@ import {
   getAllBookings,
   getBookingById,
   getMyBookings,
+  rejectPendingBooking,
 } from "../controllers/bookingController.js";
 import { authenticate, requireAdmin } from "../middleware/auth.js";
 import { validate, validateQuery } from "../middleware/validate.js";
@@ -15,6 +16,7 @@ import {
   adminBookingsQuerySchema,
   createBookingSchema,
   myBookingsQuerySchema,
+  rejectBookingSchema,
 } from "../validators/bookingSchemas.js";
 
 const router = Router();
@@ -45,6 +47,14 @@ router.patch(
   authenticate,
   validateObjectId("Booking"),
   cancelMyBooking,
+);
+router.patch(
+  "/:id/reject",
+  authenticate,
+  requireAdmin,
+  validateObjectId("Booking"),
+  validate(rejectBookingSchema, 400),
+  rejectPendingBooking,
 );
 router.get(
   "/:id",

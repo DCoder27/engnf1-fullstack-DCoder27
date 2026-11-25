@@ -1,9 +1,9 @@
-export const validate = (schema) => {
+export const validate = (schema, errorStatus = 422) => {
   return (req, res, next) => {
     const result = schema.safeParse(req.body);
 
     if (!result.success) {
-      return res.status(422).json({
+      return res.status(errorStatus).json({
         error: {
           code: "VALIDATION_ERROR",
           message: result.error.issues[0].message,

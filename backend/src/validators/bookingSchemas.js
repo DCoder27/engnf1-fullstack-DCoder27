@@ -23,6 +23,16 @@ export const createBookingSchema = z
   })
   .strict();
 
+export const rejectBookingSchema = z
+  .object({
+    note: z
+      .string()
+      .trim()
+      .min(5, "Rejection note must contain at least 5 characters")
+      .max(200, "Rejection note must not exceed 200 characters"),
+  })
+  .strict();
+
 export const myBookingsQuerySchema = z
   .object({
     status: z
