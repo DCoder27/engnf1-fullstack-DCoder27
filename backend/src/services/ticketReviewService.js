@@ -95,6 +95,6 @@ export const reviewTicket = async ({ ticketId, updates, actor }) => {
 
   return {
     ticket: updatedTicket,
-    ticket_events: ticketEvents,
+    events: ticketEvents,
   };
 };

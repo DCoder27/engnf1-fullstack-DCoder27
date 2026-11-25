@@ -58,6 +58,6 @@ export const getTicketWithEvents = async (ticketId) => {
 
   return {
     ticket,
-    ticket_events: ticketEvents,
+    events: ticketEvents,
   };
 };
