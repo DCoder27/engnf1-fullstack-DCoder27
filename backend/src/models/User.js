@@ -27,6 +27,11 @@ const userSchema = new mongoose.Schema(
       default: "USER",
       required: true,
     },
+    bookingVersion: {
+      type: Number,
+      default: 0,
+      select: false,
+    },
   },
   {
     timestamps: {
