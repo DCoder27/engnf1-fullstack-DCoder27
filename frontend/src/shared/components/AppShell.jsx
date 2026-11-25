@@ -21,6 +21,8 @@ export function AppShell() {
           </NavLink>
           <nav className="app-nav" aria-label="Primary navigation">
             <NavLink to="/tickets">Tickets</NavLink>
+            <NavLink to="/resources">Resources</NavLink>
+            <NavLink to="/bookings">My bookings</NavLink>
             {user.role === "ADMIN" && <NavLink to="/admin">Admin</NavLink>}
           </nav>
           <div className="user-chip">

@@ -1,0 +1,320 @@
+.my-bookings-page {
+  display: grid;
+  gap: 1.25rem;
+  padding-top: 2.5rem;
+  padding-bottom: 4rem;
+}
+
+.my-bookings-hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 2rem;
+  padding: 1.5rem 0 1rem;
+}
+
+.my-bookings-hero > div:first-child > span {
+  color: var(--accent);
+  font-size: 0.8rem;
+  font-weight: 850;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.my-bookings-hero h1 {
+  margin: 0.35rem 0 0;
+  font-size: clamp(2.4rem, 6vw, 4.5rem);
+  letter-spacing: -0.06em;
+  line-height: 1;
+}
+
+.my-bookings-hero p {
+  margin: 0.8rem 0 0;
+  color: var(--on-dark-muted);
+}
+
+.my-bookings-hero > div:last-child {
+  display: grid;
+  min-width: 11rem;
+  border-left: 3px solid var(--accent);
+  padding-left: 1rem;
+}
+
+.my-bookings-hero > div:last-child strong {
+  font-size: 2rem;
+}
+
+.my-bookings-hero > div:last-child span {
+  color: var(--on-dark-muted);
+  font-size: 0.8rem;
+}
+
+.my-bookings-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 1rem;
+  border: 1px solid var(--dark-border);
+  border-radius: 1rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.055);
+}
+
+.my-bookings-toolbar label {
+  display: grid;
+  min-width: 14rem;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.my-bookings-toolbar select {
+  min-height: 2.7rem;
+  border: 1px solid var(--border);
+  border-radius: 0.55rem;
+  padding: 0.55rem 0.7rem;
+  color: var(--ink);
+  background: var(--surface);
+  font: inherit;
+}
+
+.my-bookings-toolbar > span {
+  color: var(--on-dark-muted);
+  font-size: 0.85rem;
+}
+
+.my-bookings-list {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.my-booking-card {
+  display: grid;
+  grid-template-columns: 5rem 1fr;
+  overflow: hidden;
+  border-radius: 1rem;
+  color: var(--ink);
+  background: var(--surface);
+  box-shadow: 0 16px 38px rgba(0, 0, 0, 0.18);
+}
+
+.my-booking-card__date {
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 0.1rem;
+  color: var(--ink);
+  background: var(--accent);
+}
+
+.my-booking-card__date strong {
+  font-size: 1.75rem;
+  line-height: 1;
+}
+
+.my-booking-card__date span {
+  font-size: 0.75rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.my-booking-card__main {
+  display: grid;
+  gap: 1rem;
+  min-width: 0;
+  padding: 1.15rem;
+}
+
+.my-booking-card__title {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  gap: 1rem;
+}
+
+.my-booking-card__title > div > span {
+  color: var(--ink-muted);
+  font-size: 0.75rem;
+  font-weight: 750;
+}
+
+.my-booking-card__title h2 {
+  margin: 0.25rem 0 0;
+  font-size: 1.15rem;
+  overflow-wrap: anywhere;
+}
+
+.my-booking-status {
+  flex: 0 0 auto;
+  border-radius: 999px;
+  padding: 0.3rem 0.55rem;
+  color: var(--ink);
+  background: rgba(11, 11, 12, 0.08);
+  font-size: 0.7rem;
+  font-weight: 850;
+}
+
+.my-booking-status--pending,
+.my-booking-status--approved {
+  background: var(--accent-soft);
+}
+
+.my-booking-card__facts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 0;
+}
+
+.my-booking-card__facts div {
+  border-left: 2px solid var(--border);
+  padding-left: 0.75rem;
+}
+
+.my-booking-card__facts dt {
+  color: var(--ink-muted);
+  font-size: 0.75rem;
+}
+
+.my-booking-card__facts dd {
+  margin: 0.25rem 0 0;
+  font-size: 0.85rem;
+  font-weight: 750;
+}
+
+.my-booking-card__note,
+.my-bookings-error {
+  margin: 0;
+  border-radius: 0.55rem;
+  padding: 0.7rem;
+  background: var(--accent-soft);
+}
+
+.my-booking-card__cancel {
+  width: fit-content;
+  min-height: 2.4rem;
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  padding: 0 0.75rem;
+  color: var(--ink);
+  background: transparent;
+  font: inherit;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.cancel-confirmation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  border-radius: 0.65rem;
+  padding: 0.85rem;
+  color: var(--on-dark);
+  background: var(--ink);
+}
+
+.cancel-confirmation > div:first-child {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.cancel-confirmation > div:first-child span {
+  color: var(--on-dark-muted);
+  font-size: 0.8rem;
+}
+
+.cancel-confirmation > div:last-child {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.cancel-confirmation button,
+.my-bookings-pagination button {
+  min-height: 2.4rem;
+  border: 1px solid var(--dark-border);
+  border-radius: 0.5rem;
+  padding: 0 0.75rem;
+  color: var(--on-dark);
+  background: transparent;
+  font: inherit;
+  cursor: pointer;
+}
+
+.cancel-confirmation button:last-child {
+  border-color: var(--accent);
+  color: var(--ink);
+  background: var(--accent);
+  font-weight: 800;
+}
+
+.cancel-confirmation button:disabled,
+.my-bookings-pagination button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.my-bookings-state {
+  display: grid;
+  min-height: 18rem;
+  place-items: center;
+  align-content: center;
+  gap: 0.4rem;
+  border: 1px solid var(--dark-border);
+  border-radius: 1rem;
+  color: var(--on-dark-muted);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.my-bookings-state--error {
+  color: var(--ink);
+  background: var(--accent);
+}
+
+.my-bookings-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  color: var(--on-dark-muted);
+  font-size: 0.85rem;
+}
+
+@media (max-width: 720px) {
+  .my-bookings-hero,
+  .my-bookings-toolbar,
+  .cancel-confirmation {
+    align-items: start;
+    flex-direction: column;
+  }
+
+  .my-booking-card__facts {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+}
+
+@media (max-width: 500px) {
+  .my-booking-card {
+    grid-template-columns: 1fr;
+  }
+
+  .my-booking-card__date {
+    grid-template-columns: auto auto;
+    justify-content: start;
+    gap: 0.35rem;
+    padding: 0.7rem 1rem;
+  }
+
+  .my-booking-card__date strong {
+    font-size: 1rem;
+  }
+
+  .my-booking-card__title {
+    flex-direction: column;
+  }
+
+  .cancel-confirmation > div:last-child {
+    flex-direction: column;
+    width: 100%;
+  }
+}
