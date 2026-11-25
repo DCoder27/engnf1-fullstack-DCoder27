@@ -4,6 +4,7 @@ import express from "express";
 
 import { errorHandler } from "./middleware/errorHandler.js";
 import authRoutes from "./routes/authRoutes.js";
+import bookingRoutes from "./routes/bookingRoutes.js";
 import resourceRoutes from "./routes/resourceRoutes.js";
 import statsRoutes from "./routes/statsRoutes.js";
 import ticketRoutes from "./routes/ticketRoutes.js";
@@ -25,6 +26,7 @@ app.get("/api/health", (req, res) => {
 });
 
 app.use("/api/auth", authRoutes);
+app.use("/api/bookings", bookingRoutes);
 app.use("/api/resources", resourceRoutes);
 app.use("/api/tickets", ticketRoutes);
 app.use("/api/stats", statsRoutes);
