@@ -33,3 +33,11 @@ export const patchTicket = ({ ticketId, updates, token, agent }) => {
     body: updates,
   });
 };
+
+export const importTicketFeed = ({ tickets, token }) => {
+  return apiRequest("/tickets/import", {
+    method: "POST",
+    token,
+    body: { tickets },
+  });
+};

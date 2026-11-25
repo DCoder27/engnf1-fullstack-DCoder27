@@ -11,6 +11,7 @@ const formatDateTime = (value) => {
 
 export function BookingForm({ from, resource, to, token }) {
   const [purpose, setPurpose] = useState("");
+  const [ticketId, setTicketId] = useState("");
   const [error, setError] = useState("");
   const [isSaving, setIsSaving] = useState(false);
   const [createdBooking, setCreatedBooking] = useState(null);
@@ -24,6 +25,13 @@ export function BookingForm({ from, resource, to, token }) {
       return;
     }
 
+    const normalizedTicketId = ticketId.trim();
+
+    if (normalizedTicketId && !/^[0-9a-fA-F]{24}$/.test(normalizedTicketId)) {
+      setError("Related ticket ID must be a valid 24-character ID.");
+      return;
+    }
+
     setError("");
     setIsSaving(true);
 
@@ -34,6 +42,7 @@ export function BookingForm({ from, resource, to, token }) {
           startTime: new Date(from).toISOString(),
           endTime: new Date(to).toISOString(),
           purpose: normalizedPurpose,
+          ...(normalizedTicketId ? { ticketId: normalizedTicketId } : {}),
         },
         token,
       });
@@ -80,22 +89,36 @@ export function BookingForm({ from, resource, to, token }) {
         </dl>
       </div>
 
-      <label>
-        Purpose of booking
-        <textarea
-          required
-          rows="3"
-          minLength="5"
-          maxLength="200"
-          value={purpose}
-          onChange={(event) => {
-            setPurpose(event.target.value);
-            setError("");
-          }}
-          placeholder="Briefly explain how you will use this resource"
-        />
-        <small>{purpose.length}/200</small>
-      </label>
+      <div className="booking-form__fields">
+        <label>
+          Purpose of booking
+          <textarea
+            required
+            rows="3"
+            minLength="5"
+            maxLength="200"
+            value={purpose}
+            onChange={(event) => {
+              setPurpose(event.target.value);
+              setError("");
+            }}
+            placeholder="Briefly explain how you will use this resource"
+          />
+          <small>{purpose.length}/200</small>
+        </label>
+        <label>
+          Related ticket ID (optional)
+          <input
+            maxLength="24"
+            value={ticketId}
+            onChange={(event) => {
+              setTicketId(event.target.value);
+              setError("");
+            }}
+            placeholder="24-character ticket ID"
+          />
+        </label>
+      </div>
 
       {error && <p className="booking-form__error">{error}</p>}
       <button type="submit" disabled={isSaving}>

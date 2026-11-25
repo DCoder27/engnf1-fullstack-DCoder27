@@ -541,15 +541,20 @@
   font-weight: 750;
 }
 
-.booking-form label {
+.booking-form label,
+.booking-form__fields {
   display: grid;
   gap: 0.4rem;
+}
+
+.booking-form label {
   color: var(--on-dark);
   font-size: 0.85rem;
   font-weight: 700;
 }
 
-.booking-form textarea {
+.booking-form textarea,
+.booking-form input {
   width: 100%;
   border: 1px solid var(--dark-border);
   border-radius: 0.55rem;
@@ -558,6 +563,10 @@
   background: rgba(255, 255, 255, 0.08);
   font: inherit;
   resize: vertical;
+}
+
+.booking-form input {
+  min-height: 2.65rem;
 }
 
 .booking-form textarea::placeholder {

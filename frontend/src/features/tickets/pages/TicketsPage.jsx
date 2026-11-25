@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 import { useAuth } from "../../auth/hooks/useAuth.js";
-import { patchTicket } from "../api/ticketApi.js";
+import { importTicketFeed, patchTicket } from "../api/ticketApi.js";
 import { StatsStrip } from "../components/StatsStrip.jsx";
 import { TicketDetail } from "../components/TicketDetail.jsx";
 import { TicketFilters } from "../components/TicketFilters.jsx";
@@ -26,6 +26,9 @@ export function TicketsPage() {
   const [isSaving, setIsSaving] = useState(false);
   const [mutationError, setMutationError] = useState("");
   const [statsVersion, setStatsVersion] = useState(0);
+  const [importMessage, setImportMessage] = useState("");
+  const [isImporting, setIsImporting] = useState(false);
+  const feedInputRef = useRef(null);
 
   const queue = useTicketQueue({ filters, page, token: accessToken });
   const activeTicketId =
@@ -94,6 +97,38 @@ export function TicketsPage() {
     }
   };
 
+  const handleFeedFile = async (event) => {
+    const file = event.target.files?.[0];
+
+    if (!file) {
+      return;
+    }
+
+    setImportMessage("");
+    setIsImporting(true);
+
+    try {
+      const parsedFeed = JSON.parse(await file.text());
+      const tickets = Array.isArray(parsedFeed) ? parsedFeed : parsedFeed.tickets;
+
+      if (!Array.isArray(tickets) || tickets.length === 0) {
+        throw new Error("Choose a JSON array of tickets or an object with a tickets array.");
+      }
+
+      const result = await importTicketFeed({ tickets, token: accessToken });
+      setImportMessage(
+        `Feed processed: ${result.importedCount} imported, ${result.updatedCount} updated, ${result.skippedOverrideCount} human overrides preserved.`,
+      );
+      queue.reload();
+      setStatsVersion((version) => version + 1);
+    } catch (requestError) {
+      setImportMessage(`Import failed: ${requestError.message}`);
+    } finally {
+      setIsImporting(false);
+      event.target.value = "";
+    }
+  };
+
   return (
     <main className="page tickets-page">
       <header className="tickets-heading">
@@ -102,11 +137,31 @@ export function TicketsPage() {
           <h1>Ticket triage queue</h1>
           <p>Filter incoming support work and review each change with an audit trail.</p>
         </div>
-        <div className="tickets-heading__status">
-          <span aria-hidden="true" />
-          {queue.result.total} live tickets
+        <div className="tickets-heading__actions">
+          <div className="tickets-heading__status">
+            <span aria-hidden="true" />
+            {queue.result.total} live tickets
+          </div>
+          <input
+            className="visually-hidden"
+            ref={feedInputRef}
+            type="file"
+            accept="application/json,.json"
+            onChange={handleFeedFile}
+          />
+          <button
+            type="button"
+            disabled={isImporting}
+            onClick={() => feedInputRef.current?.click()}
+          >
+            {isImporting ? "Importing…" : "Re-import feed"}
+          </button>
         </div>
       </header>
+
+      {importMessage && (
+        <p className="ticket-import-message" role="status">{importMessage}</p>
+      )}
 
       <StatsStrip stats={ticketStats.stats} error={ticketStats.error} />
       <TicketFilters filters={filters} onChange={handleFilterChange} onReset={handleReset} />
