@@ -50,10 +50,6 @@ export const createBooking = async ({ userId, input }) => {
         throw new HttpError(404, "NOT_FOUND", "Resource not found");
       }
 
-      if (activeFutureBookings >= 3) {
-        throw conflict("A user may have at most 3 future active bookings");
-      }
-
       if (input.ticketId) {
         const ticketExists = await Ticket.exists({ _id: input.ticketId }).session(
           session,
@@ -62,6 +58,10 @@ export const createBooking = async ({ userId, input }) => {
         if (!ticketExists) {
           throw new HttpError(404, "NOT_FOUND", "Ticket not found");
         }
+      }
+
+      if (activeFutureBookings >= 3) {
+        throw conflict("A user may have at most 3 future active bookings");
       }
 
       // This catches pre-existing bookings that were created before slot locks.
