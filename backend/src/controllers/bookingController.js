@@ -1,6 +1,7 @@
 import { createBooking } from "../services/bookingCreationService.js";
 import {
   getBooking,
+  listAllBookings,
   listMyBookings,
 } from "../services/bookingQueryService.js";
 
@@ -38,6 +39,15 @@ export const getBookingById = async (req, res, next) => {
     });
 
     return res.status(200).json(booking);
+  } catch (error) {
+    return next(error);
+  }
+};
+
+export const getAllBookings = async (req, res, next) => {
+  try {
+    const result = await listAllBookings(req.validatedQuery);
+    return res.status(200).json(result);
   } catch (error) {
     return next(error);
   }

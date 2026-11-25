@@ -3,13 +3,7 @@ import { HttpError } from "../utils/HttpError.js";
 
 const PAGE_SIZE = 10;
 
-export const listMyBookings = async ({ userId, status, page }) => {
-  const filter = { userId };
-
-  if (status) {
-    filter.status = status;
-  }
-
+const paginatedBookings = async (filter, page) => {
   const [bookings, total] = await Promise.all([
     Booking.find(filter)
       .sort({ startTime: -1, _id: -1 })
@@ -25,6 +19,41 @@ export const listMyBookings = async ({ userId, status, page }) => {
     total,
     totalPages: Math.ceil(total / PAGE_SIZE),
   };
+};
+
+export const listMyBookings = async ({ userId, status, page }) => {
+  const filter = { userId };
+
+  if (status) {
+    filter.status = status;
+  }
+
+  return paginatedBookings(filter, page);
+};
+
+export const listAllBookings = async ({
+  status,
+  resourceId,
+  from,
+  to,
+  page,
+}) => {
+  const filter = {};
+
+  if (status) {
+    filter.status = status;
+  }
+
+  if (resourceId) {
+    filter.resourceId = resourceId;
+  }
+
+  if (from && to) {
+    filter.startTime = { $lt: to };
+    filter.endTime = { $gt: from };
+  }
+
+  return paginatedBookings(filter, page);
 };
 
 export const getBooking = async ({ bookingId, user }) => {

@@ -31,3 +31,32 @@ export const myBookingsQuerySchema = z
     page: z.coerce.number().int().min(1).default(1),
   })
   .strict();
+
+export const adminBookingsQuerySchema = z
+  .object({
+    status: z
+      .enum(["PENDING", "APPROVED", "REJECTED", "CANCELLED"])
+      .optional(),
+    resourceId: objectIdSchema.optional(),
+    from: utcDateTimeSchema.optional(),
+    to: utcDateTimeSchema.optional(),
+    page: z.coerce.number().int().min(1).default(1),
+  })
+  .strict()
+  .superRefine(({ from, to }, context) => {
+    if (Boolean(from) !== Boolean(to)) {
+      context.addIssue({
+        code: "custom",
+        message: "from and to must be provided together",
+      });
+      return;
+    }
+
+    if (from instanceof Date && to instanceof Date && to <= from) {
+      context.addIssue({
+        code: "custom",
+        path: ["to"],
+        message: "to must be later than from",
+      });
+    }
+  });
