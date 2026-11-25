@@ -22,3 +22,12 @@ export const createBookingSchema = z
     ticketId: z.union([objectIdSchema, z.null()]).optional(),
   })
   .strict();
+
+export const myBookingsQuerySchema = z
+  .object({
+    status: z
+      .enum(["PENDING", "APPROVED", "REJECTED", "CANCELLED"])
+      .optional(),
+    page: z.coerce.number().int().min(1).default(1),
+  })
+  .strict();
