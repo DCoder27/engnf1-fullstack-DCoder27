@@ -2,6 +2,7 @@ import { Router } from "express";
 
 import {
   addBooking,
+  cancelMyBooking,
   getAllBookings,
   getBookingById,
   getMyBookings,
@@ -30,6 +31,12 @@ router.get(
   requireAdmin,
   validateQuery(adminBookingsQuerySchema),
   getAllBookings,
+);
+router.patch(
+  "/:id/cancel",
+  authenticate,
+  validateObjectId("Booking"),
+  cancelMyBooking,
 );
 router.get(
   "/:id",

@@ -1,4 +1,5 @@
 import { createBooking } from "../services/bookingCreationService.js";
+import { cancelBooking } from "../services/bookingCancellationService.js";
 import {
   getBooking,
   listAllBookings,
@@ -48,6 +49,19 @@ export const getAllBookings = async (req, res, next) => {
   try {
     const result = await listAllBookings(req.validatedQuery);
     return res.status(200).json(result);
+  } catch (error) {
+    return next(error);
+  }
+};
+
+export const cancelMyBooking = async (req, res, next) => {
+  try {
+    const booking = await cancelBooking({
+      bookingId: req.params.id,
+      userId: req.user.id,
+    });
+
+    return res.status(200).json(booking);
   } catch (error) {
     return next(error);
   }
